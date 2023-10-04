@@ -26,7 +26,7 @@ from sklearn.metrics import roc_curve, auc
 from sklearn.datasets import make_classification
 import streamlit as st
 
-# churn_data = pd.read_csv(r"./Churn_Modelling.csv")
+# churn_data = pd.read_csv(r"D:/datasets/Churn/Churn_Modelling.csv")
 churn_data = pd.read_csv(r"./Churn_Modelling.csv")
 
 # churn_data
@@ -533,64 +533,13 @@ if file is not None:
             print(f'train confusion Matrix:\n{train_confusion}')
             print(f'test confusion Matrix:\n{test_confusion}')
 
-            def plot_conf_matrix(conf, dftype):
-                import plotly.figure_factory as ff
+            ConfusionMatrixDisplay.from_estimator(log_reg_model, X_train, y_train)
+            plt.title('Train Confusion Matrix\n')
+            st.pyplot(plt)
 
-                # Define the confusion matrix values
-                TP = conf[1, 1]
-                TN = conf[0, 0]
-                FP = conf[0, 1]
-                FN = conf[1, 0]
-
-                # Create a confusion matrix table
-                conf_matrix = [[TN, FP],
-                               [FN, TP]]
-
-                # Define colors for font based on TP, TN, FP, FN
-                font_colors = [['green', 'red'],
-                               ['red', 'green']]
-
-                # Create custom annotation text with font colors
-                annotations = []
-                for i in range(2):
-                    for j in range(2):
-                        label = 'TP' if i == 1 and j == 1 else 'TN' if i == 0 and j == 0 else 'FP' if i == 0 and j == 1 else 'FN'
-                        value = conf_matrix[i][j]
-                        font_color = font_colors[i][j]
-                        annotations.append(dict(
-                            x=j,
-                            y=i,
-                            text=f'{value}<br>{label}',
-                            showarrow=False,
-                            font=dict(color=font_color)
-                        ))
-
-                # Create a figure with custom annotations and color scale
-                fig = ff.create_annotated_heatmap(
-                    z=conf_matrix,
-                    x=['Predicted Negative', 'Predicted Positive'],
-                    y=['Actual Negative', 'Actual Positive'],
-                    colorscale=[[0, 'beige'], [1, '#94CCFB']],
-                    showscale=False,  # No color scale
-                    annotation_text=conf_matrix,
-                    customdata=conf_matrix,
-                )
-
-                # Add custom annotations to the figure
-                fig.update_layout(annotations=annotations)
-
-                # Customize the layout
-                fig.update_layout(
-                    title=f'Confusion Matrix ({dftype})',
-                    xaxis=dict(title='Predicted'),
-                    yaxis=dict(title='Actual'),
-                )
-
-                # Show the plot
-                st.plotly_chart(fig)
-
-            plot_conf_matrix(train_confusion, "Train")
-            plot_conf_matrix(test_confusion, "Test")
+            ConfusionMatrixDisplay.from_estimator(log_reg_model, X_test, y_test)
+            plt.title('Test Confusion Matrix\n')
+            st.pyplot(plt)
 
             print(f'Classification Report:\n{report}')
 
@@ -1071,6 +1020,7 @@ if file is not None:
                 KS_data['max_ks'] = np.where(KS_data['ks_stats'] == KS_data['ks_stats'].max(), 'Yes', '')
                 calculate_ks_statistics.max_ks = KS_data['ks_stats'].max()
 
+
                 # Calculate Gain and Lift.
                 KS_data['Gain'] = KS_data['Percent of ' + response_name + ' (%)'].cumsum()
                 KS_data['Lift'] = (KS_data['Gain'] / np.arange(10, 100 + 10, 10)).round(2)
@@ -1082,6 +1032,7 @@ if file is not None:
 
             st.subheader(f"{df_type} KS table")
             st.dataframe(ks_data)
+
             st.subheader(f" {df_type} KS: {calculate_ks_statistics.max_ks}")
 
             def model_selection_by_gain_chart(model_gains_dict):
@@ -1169,7 +1120,7 @@ if file is not None:
 
     with tab1:
 
-        # ## Sample data generation
+        # ### Sample data generation
 
         # import pandas as pd
         # import random
@@ -1295,6 +1246,7 @@ if file is not None:
             color_discrete_map=color_mapping,
             category_orders={'churn_category': category_order},
         )
+
         # Add data labels to the bars
         fig.update_traces(texttemplate='%{y:.2f}%', textposition='auto')
 
