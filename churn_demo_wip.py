@@ -657,6 +657,10 @@ if file is not None:
                 "geography_5": "Madhya Pradesh",
                 "geography_6": "Maharashtra",
                 "geography_7": "Andhra Pradesh",
+                "isactivemember": "is active member",
+                "hascrcard": "has credit card",
+                "numofproducts": "num of products",
+
             }
             # Use the .rename() function to replace index labels
             features = features.rename(columns=geography_mapping)
