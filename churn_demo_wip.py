@@ -27,7 +27,7 @@ from sklearn.datasets import make_classification
 import streamlit as st
 
 # churn_data = pd.read_csv(r"./Churn_Modelling.csv")
-churn_data = pd.read_csv(r"C:/Users/shreyasaraf/PycharmProjects/Churn Project/New folder/churn-pred/Churn_Modelling.csv")
+churn_data = pd.read_csv(r"./Churn_Modelling.csv")
 
 # churn_data
 
