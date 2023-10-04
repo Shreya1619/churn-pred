@@ -107,7 +107,7 @@ if file is not None:
             y='churn',
             markers=True,
             labels={'churn': 'Churn Rate '},
-            title='gender'
+            title='Gender'
         )
 
         fig.update_traces(line_color='blue')
@@ -135,7 +135,7 @@ if file is not None:
             y='churn',
             markers=True,
             labels={'churn': 'Churn Rate '},
-            title='geography'
+            title='Geography'
         )
 
         fig.update_traces(line_color='blue')
@@ -163,7 +163,7 @@ if file is not None:
             y='churn',
             markers=True,
             labels={'churn': 'Churn Rate '},
-            title='hascrcard'
+            title='Has credit card'
         )
 
         fig.update_traces(line_color='blue')
@@ -190,7 +190,7 @@ if file is not None:
             y='churn',
             markers=True,
             labels={'churn': 'Churn Rate '},
-            title='isactivemember'
+            title='Is active member'
         )
 
         fig.update_traces(line_color='blue')
@@ -328,7 +328,7 @@ if file is not None:
             y='churn',
             markers=True,  # Enable markers
             labels={'churn': 'churn Rate (%)'},
-            title=f'age'
+            title=f'Age'
         )
 
         fig1.update_traces(line_color='blue')  # Set the line color
@@ -369,7 +369,7 @@ if file is not None:
         salary_bins_churn_rate.head(15)
 
         # Create a line chart
-        fig = px.line(salary_bins_churn_rate, x='est_salary_slab', y='churn', title='salary',
+        fig = px.line(salary_bins_churn_rate, x='est_salary_slab', y='churn', title='Salary',
                       markers=True)
 
         # Customize the appearance (optional)
@@ -398,7 +398,7 @@ if file is not None:
             y='churn',
             markers=True,  # Enable markers
             labels={'churn': 'churn Rate (%)'},
-            title=f'creditscore'
+            title=f'Credit score'
         )
 
         fig.update_traces(line_color='blue')  # Set the line color
@@ -658,7 +658,7 @@ if file is not None:
                 "geography_6": "Maharashtra",
                 "geography_7": "Andhra Pradesh",
                 "isactivemember": "is active member",
-                "hascrcard": "has credit card",
+                "hascrcard":"has credit card",
                 "numofproducts": "num of products",
 
             }
