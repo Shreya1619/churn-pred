@@ -580,7 +580,7 @@ if file is not None:
 
                 # Customize the layout
                 fig.update_layout(
-                    title=f'Swapped Columns Transposed Confusion Matrix ({dftype})',
+                    title=f' {dftype} Confusion Matrix ',
                     xaxis=dict(title='Predicted'),
                     yaxis=dict(title='Actual'),
                 )
