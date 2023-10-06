@@ -27,7 +27,7 @@ from sklearn.datasets import make_classification
 import streamlit as st
 
 churn_data = pd.read_csv(r"./Churn_Modelling.csv")
-# churn_data = pd.read_csv(r"C:/Users/shreyasaraf/PycharmProjects/Churn Project/New folder/churn-pred/Churn_Modelling.csv")
+#churn_data = pd.read_csv(r"C:/Users/shreyasaraf/PycharmProjects/Churn Project/New folder/churn-pred/Churn_Modelling.csv")
 
 #    churn_data
 
@@ -167,7 +167,7 @@ if file is not None:
         )
 
         fig.update_traces(line_color='blue')
-        fig.update_xaxes(title_text='Geography')
+        fig.update_xaxes(title_text='Has Credit Card')
         fig.update_yaxes(title_text='Churn Rate ')
 
         # Set the x-axis tickvals and ticktext for categorical labels
@@ -194,7 +194,7 @@ if file is not None:
         )
 
         fig.update_traces(line_color='blue')
-        fig.update_xaxes(title_text='Geography')
+        fig.update_xaxes(title_text='Is Active Member')
         fig.update_yaxes(title_text='Churn Rate ')
 
         # Set the x-axis tickvals and ticktext for categorical labels
@@ -327,13 +327,13 @@ if file is not None:
             x='age_slab',
             y='churn',
             markers=True,  # Enable markers
-            labels={'churn': 'churn Rate (%)'},
+            labels={'churn': 'churn Rate'},
             title=f'Age'
         )
 
         fig1.update_traces(line_color='blue')  # Set the line color
         fig1.update_xaxes(title_text='age_slab')
-        fig1.update_yaxes(title_text='churn Rate (%)')
+        fig1.update_yaxes(title_text='churn Rate')
         # Set the y-axis range and tick interval
         fig1.update_yaxes(
             # range=[0, 100],  # Set the range from 0 to 100
@@ -374,7 +374,7 @@ if file is not None:
 
         # Customize the appearance (optional)
         fig.update_xaxes(title_text='est_salary_slab')
-        fig.update_yaxes(title_text='churn Rate (%)')
+        fig.update_yaxes(title_text='churn Rate')
 
         # Display the chart
         st.plotly_chart(fig)
@@ -397,7 +397,7 @@ if file is not None:
             x='creditscore_slab',
             y='churn',
             markers=True,  # Enable markers
-            labels={'churn': 'churn Rate (%)'},
+            labels={'churn': 'churn Rate'},
             title=f'Credit score'
         )
 
@@ -1239,6 +1239,28 @@ if file is not None:
 
         # p(Y)= 1/1+e^-(c1f+c2f...)
         #   Score = c +c1f + c2f + c3f
+        # mapping categorical variables
+        gender_mapping = {'Male': 0, 'Female': 1}
+        # Create a dictionary to map geography values to numerical values
+        geography_mapping = {
+
+            "Bihar": 1,
+            "Goa": 2,
+            "Gujarat": 3,
+            "Kerala": 4,
+            "Madhya Pradesh": 5,
+            "Maharashtra": 6,
+            "Andhra Pradesh": 7
+        }
+
+        score_data = generated_data.copy()
+        score_data['gender'] = score_data['gender'].map(gender_mapping)
+        # Use the map function to apply the mapping to the 'geography' column
+        score_data['geography'] = score_data['geography'].map(geography_mapping)
+        # Transform the Categorical Variables: Creating Dummy Variables
+        score_data = pd.get_dummies(score_data, columns=['geography'])
+        print("generated_data")
+
         coefficient = fit_and_estimate.coefficient.astype(str).astype(float).iloc[:-1]
 
 
@@ -1247,8 +1269,8 @@ if file is not None:
 
 
         # Apply the function to each row of the DataFrame
-        score_data = generated_data.copy()
-        score_data = score_data.drop(['churn', 'estimatedsalary', 'balance'], axis=1)
+        cust_id_index=score_data['customer_id']
+        score_data = score_data.drop(['customer_id', 'estimatedsalary', 'balance'], axis=1)
 
         # score_data = score_data.drop('intercept', axis=1)
 
@@ -1270,14 +1292,10 @@ if file is not None:
 
         print(set(score_data['churn_category'].to_list()))
 
-        df = score_data.copy()
-        df['customer_id'] = ['C' + str(i) for i in range(1, len(df) + 1)]
-        df.set_index('customer_id', inplace=True)
-
-        columns_to_drop = ['CxF', 'X']
-        score_data_op = df.drop(columns=columns_to_drop)
         category_percentages = (score_data['churn_category'].value_counts(normalize=True) * 100).reset_index()
         category_percentages.columns = ['churn_category', 'percentage']  # Set column names
+        score_data.insert(0, 'customer_id', cust_id_index)
+
 
         # Define color mapping for categories
         color_mapping = {'Low': 'green', 'Medium': 'yellow', 'High': 'red'}
@@ -1300,9 +1318,14 @@ if file is not None:
 
         st.plotly_chart(fig)
 
+        # Merge 'score_data' columns into 'generated_data' based on 'customer_id'
+        final_op=generated_data = generated_data.merge(score_data[['customer_id','churn_prob', 'churn_category']], on='customer_id', how='left')
+        final_op.set_index('customer_id', inplace=True)
+
+
     st.download_button(
         "Click to Download",
-        pd.DataFrame(score_data_op).to_csv(),
+        pd.DataFrame(final_op).sort_values(by = 'churn_prob', ascending = False).to_csv(),
         "scored_customers.csv",
         "text/csv",
         key='download-csv'
