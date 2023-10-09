@@ -692,7 +692,7 @@ if file is not None:
             ########################################################################################
             # variation between test and train estimates
 
-            coefficients_train = log_reg_model.coef_[0]
+            
 
             coefficients_train = log_reg_model.coef_[0]
             print('columns_mop')
@@ -906,6 +906,7 @@ if file is not None:
 
             ########################################################################################
             # variation between test and train estimates
+            coefficients_train = log_reg_model.coef_[0]
 
             coef_train_df = pd.DataFrame({'Variable': X_train.columns, 'Coefficient_Train': coefficients_train})
             print(coef_train_df)
