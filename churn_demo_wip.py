@@ -1429,6 +1429,8 @@ if file is not None:
         st.plotly_chart(roc_curve_fig)
 
         import shap
+        from streamlit_shap import st_shap
+
       
         
         
@@ -1436,13 +1438,14 @@ if file is not None:
 
         
         # Assuming you have a trained Random Forest model named 'rf_best'
-        explainer = shap.Explainer(rf_best)
+        # explainer = shap.Explainer(rf_best)
+        explainer = shap.Explainer(rf_best, X_test)
        
 
         
         shap_values = explainer.shap_values(X_test)
         #The SHAP values represent the contribution of each feature to the prediction made by the model for each instance in X_test.
-        st.pyplot(shap.summary_plot(shap_values, X_test))
+        # st.pyplot(shap.summary_plot(shap_values, X_test))
        
 
         # fig, ax = plt.gcf(), plt.gca()
