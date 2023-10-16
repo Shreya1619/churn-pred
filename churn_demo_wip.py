@@ -1429,8 +1429,18 @@ if file is not None:
         st.plotly_chart(roc_curve_fig)
 
         import shap
+        from shap.maskers import Independent
+        
+        # Create a masker for tabular data
+        masker = Independent(data, max_samples=100)
+        
+        # Assuming you have a trained Random Forest model named 'rf_best'
+        explainer = shap.Explainer(rf_best, masker)
+        
+        # Create SHAP values
+        shap_values = explainer(data)
 
-        explainer = shap.Explainer(rf_best)
+        
         shap_values = explainer.shap_values(X_test)
         #The SHAP values represent the contribution of each feature to the prediction made by the model for each instance in X_test.
         shap.summary_plot(shap_values, X_test,  max_display=12)
