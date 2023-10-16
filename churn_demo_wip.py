@@ -1429,34 +1429,35 @@ if file is not None:
         st.plotly_chart(roc_curve_fig)
 
         import shap
-        from shap.maskers import Independent
+      
         
         # Create a masker for tabular data
-        masker = shap.maskers.Independent(data=X)
+       
 
         
         # Assuming you have a trained Random Forest model named 'rf_best'
-        explainer = shap.Explainer(rf_best, masker)
-        shap_values = explainer.shap_values(X_test)
+        explainer = shap.Explainer(rf_best)
+       
 
         
         shap_values = explainer.shap_values(X_test)
         #The SHAP values represent the contribution of each feature to the prediction made by the model for each instance in X_test.
-        shap.summary_plot(shap_values, X_test,  max_display=12)
+        st.pyplot(shap.summary_plot(shap_values, X_test))
+       
 
-        fig, ax = plt.gcf(), plt.gca()
+        # fig, ax = plt.gcf(), plt.gca()
         
 
-        st.pyplot(fig)
+        # st.pyplot(fig)
 
-        shap.summary_plot(shap_values[0], X_test)
-        #Display the summary_plot of the label “0”.
-        fig, ax = plt.gcf(), plt.gca()
-        st.pyplot(fig)
+        # shap.summary_plot(shap_values[0], X_test)
+        # #Display the summary_plot of the label “0”.
+        # fig, ax = plt.gcf(), plt.gca()
+        # st.pyplot(fig)
 
-        shap.plots.force(explainer.expected_value[1], shap_values[1][10, :], X_test.iloc[10, :],matplotlib = True)
-        fig, ax = plt.gcf(), plt.gca()
-        st.pyplot(fig)
+        # shap.plots.force(explainer.expected_value[1], shap_values[1][10, :], X_test.iloc[10, :],matplotlib = True)
+        # fig, ax = plt.gcf(), plt.gca()
+        # st.pyplot(fig)
 
 
 
