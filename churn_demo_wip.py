@@ -1232,7 +1232,7 @@ if file is not None:
         }
         
         rf_best = RandomForestClassifier(max_depth=20, min_samples_leaf=5, n_estimators=50,
-                        n_jobs=-1, random_state=42)
+                        n_jobs=-1, random_state=42, oob_score=True)
         # print(f"best grid estimates {rf_best}\n")
 
 
@@ -1431,7 +1431,7 @@ if file is not None:
         import shap
       
         
-        # Create a masker for tabular data
+        
        
 
         
