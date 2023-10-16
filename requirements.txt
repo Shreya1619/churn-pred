@@ -15,3 +15,4 @@ matplotlib
 patsy
 pandas
 numpy==1.25
+shap==0.36.0
