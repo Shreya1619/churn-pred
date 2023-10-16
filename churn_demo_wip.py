@@ -1432,13 +1432,12 @@ if file is not None:
         from shap.maskers import Independent
         
         # Create a masker for tabular data
-        masker = Independent(data, max_samples=100)
+        masker = shap.maskers.Independent(data=X)
+
         
         # Assuming you have a trained Random Forest model named 'rf_best'
         explainer = shap.Explainer(rf_best, masker)
-        
-        # Create SHAP values
-        shap_values = explainer(data)
+        shap_values = explainer.shap_values(X_test)
 
         
         shap_values = explainer.shap_values(X_test)
