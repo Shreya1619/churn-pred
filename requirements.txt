@@ -1,7 +1,6 @@
 PyPDF2
 pdfplumber
 nlp
-numpy==1.25
 docx2txt
 scikit-learn
 spacy==2.3.5
@@ -15,4 +14,4 @@ seaborn
 matplotlib
 patsy
 pandas
-shap
+numpy==1.25
