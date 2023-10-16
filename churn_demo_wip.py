@@ -1429,7 +1429,6 @@ if file is not None:
         st.plotly_chart(roc_curve_fig)
 
         import shap
-        from streamlit_shap import st_shap
 
       
         
