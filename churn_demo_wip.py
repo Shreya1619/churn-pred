@@ -39,6 +39,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report, confusion_matrix, ConfusionMatrixDisplay
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 from sklearn.model_selection import cross_val_score
+from sklearn.ensemble import GradientBoostingClassifier
 
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 from sklearn.model_selection import train_test_split
@@ -830,6 +831,11 @@ if file is not None:
         naive_bayes_model = GaussianNB()
         NB_pipeline=estimate_pipeline(naive_bayes_model, "Naive Bayes model")
         results_list.append(NB_pipeline)
+
+      
+        gradient_boosting_model = GradientBoostingClassifier(n_estimators=100, random_state=42)
+        gradient_boosting_results = estimate_pipeline(gradient_boosting_model, "Gradient Boosting")
+        results_list.append(gradient_boosting_results)
 
         #NN Classifier
         NN_classifier = Sequential()
