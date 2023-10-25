@@ -841,6 +841,9 @@ if file is not None:
         NN_classifier.add(Dense(1,activation = 'sigmoid'))
 
         NN_classifier.compile(optimizer = 'adam',loss = 'binary_crossentropy',metrics = ['accuracy'])
+        X_train = X_train.astype(np.float32)
+        y_train = y_train.astype(np.float32)
+
         history = NN_classifier.fit(X_train, y_train, batch_size=10, epochs=10)
 
         # Access the accuracy values from the history
