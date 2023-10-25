@@ -864,8 +864,9 @@ if file is not None:
         }
         result_dict["Train Accuracy"] = last_accuracy
 
-
-
+        X_test = X_test.astype(np.float32)
+        y_test = y_test.astype(np.float32)
+        
         history = NN_classifier.fit(X_test,y_test,batch_size = 10, epochs = 10)
         test_accuracy = history.history['accuracy']  # List of training accuracy values
 
