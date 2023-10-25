@@ -20,3 +20,4 @@ streamlit==1.27.0
 streamlit-aggrid
 scipy
 tensorflow
+yellowbrick
