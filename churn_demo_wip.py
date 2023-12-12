@@ -1338,12 +1338,11 @@ with st.spinner('Please Wait...'):
             # Merge 'score_data' columns into 'generated_data' based on 'customer_id'
             final_op=generated_data = generated_data.merge(score_data1[['customer_id','probability', 'churn_category']], on='customer_id', how='left')
             final_op.set_index('customer_id', inplace=True)
-
-
-        st.download_button(
-            "Click to Download",
-            pd.DataFrame(final_op).sort_values(by = 'probability', ascending = False).to_csv(),
-            "scored_customers.csv",
-            "text/csv",
-            key='download-csv'
-        )
+            
+            st.download_button(
+                "Click to Download",
+                pd.DataFrame(final_op).sort_values(by = 'probability', ascending = False).to_csv(),
+                "scored_customers.csv",
+                "text/csv",
+                key='download-csv'
+            )
